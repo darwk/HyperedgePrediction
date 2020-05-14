@@ -1,0 +1,10 @@
+/ArnetMiner/domains/Artificial intelligence.txt
+/ArnetMiner/domains/Compter graphics_Multimedia.txt
+/ArnetMiner/domains/Computer networks.txt
+/ArnetMiner/domains/Database_Data mining_Information retrieval.txt
+/ArnetMiner/domains/High-Performance Computing.txt
+/ArnetMiner/domains/Human computer interaction_Ubiquitous computing.txt
+/ArnetMiner/domains/Information security.txt
+/ArnetMiner/domains/Interdisciplinary Studies.txt
+/ArnetMiner/domains/Software engineering.txt
+/ArnetMiner/domains/Theoretical computer science.txt
