@@ -236,7 +236,7 @@ def get_largest_cc(nodes, hyperedges):
     return largest_cc.nodes(), hyperedges
 
 
-def get_coreference_network(dataset, use_cc, dataset_folder):
+def get_coreference_network(dataset, dataset_folder):
 
     if dataset == "aminer":
         paperid_classid, classid_classname, reference_ids, coreferences_list = read_aminer_data_files(dataset_folder)
@@ -246,9 +246,7 @@ def get_coreference_network(dataset, use_cc, dataset_folder):
         paperid_classid, classid_classname, reference_ids, coreferences_list = read_cora_data_files(dataset_folder)
 
     nodes, hyperedges = validate_hyperedges(paperid_classid.keys(), reference_ids, coreferences_list)
-
-    if use_cc == "True":
-        nodes, hyperedges = get_largest_cc(nodes, hyperedges)
+    nodes, hyperedges = get_largest_cc(nodes, hyperedges)
 
     print("Total number of nodes - " + str(len(nodes)))
     print("Total number of hyperedges - " + str(len(hyperedges)))

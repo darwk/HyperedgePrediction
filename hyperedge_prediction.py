@@ -18,12 +18,12 @@ def compute_NHAS(hyedge, hra_scores, nodes_count):
     scores = []
 
     # computing Node-Hyperedge Attachment Scores (NHAS) for all candidate nodes
-    for node in range(nodes_count):
-        if len(hyedge & set([node])) == 0:
+    for candidate_node in range(nodes_count):
+        if len(hyedge & set([candidate_node])) == 0:
             score = 0
             for node in hyedge:
-                score += hra_scores[node, node]
-            candidate_nodes.append(node)
+                score += hra_scores[node, candidate_node]
+            candidate_nodes.append(candidate_node)
             scores.append(score)
 
     return candidate_nodes, scores
@@ -49,4 +49,5 @@ def predict_hyperedge(H, hra_scores, edge_degree):
         selected_node = np.random.choice(candidate_nodes, replace=True, p=scores/np.sum(scores))
         hyedge.add(selected_node)
 
+    print(hyedge)
     return hyedge

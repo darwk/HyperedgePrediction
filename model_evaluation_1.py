@@ -13,7 +13,8 @@ def get_missing_hyedges_indices(hyedges_count, K):
     missing_hyedges_indices_list = []
     missing_hyedges_count = hyedges_count / float(K)
 
-    shuffled_indices = random.shuffle(list(range(0, hyedges_count)))
+    shuffled_indices = list(range(0, hyedges_count))
+    random.shuffle(shuffled_indices)
     for k in range(K):
         missing_hyedges_indices_list.append(shuffled_indices[round(missing_hyedges_count * k):round(missing_hyedges_count * (k + 1))])
 
@@ -37,7 +38,7 @@ def get_hra_scores(H):
 
 def get_hyedges_degree_dist(H):
     hyedges_degree_dist = Counter(np.squeeze(np.asarray(sp.csr_matrix.sum(H, axis=0))))
-    hypedges_count = len(hyedges_degree_dist)
+    hypedges_count = H.shape[1]
 
     hyedges_degree = []
     hyedges_degree_frequencies = []
@@ -51,11 +52,8 @@ def get_hyedges_degree_dist(H):
 def compute_model_f1_score(dataset, network, K, seed):
     random.seed(seed)
 
-    # build the hypergraph network using the raw dataset
-    nodes, hyedges = get_network(dataset, network)
-
     # get the incidence matrix
-    S, index_map = get_incidence_matrix(nodes, hyedges)
+    S = get_network(dataset, network)
     hyedges_count = S.shape[1]
 
     # get missing hyedges list used for K-fold cross validation

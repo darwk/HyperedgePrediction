@@ -41,16 +41,11 @@ def compute_avg_f1_score(hyperedges, predicted_hyperedges):
     avg_f1_score_1 = 0.0
     for predicted_hyperedge in predicted_hyperedges:
         max_f1_score = 0.0
-        max_match_hyperedge = []
         for hyperedge in hyperedges:
             f1_score = compute_f1_score(hyperedge, predicted_hyperedge)
             if f1_score > max_f1_score:
                 max_f1_score = f1_score
-                max_match_hyperedge = hyperedge
 
-        #print(max_f1_score)
-        #print(max_match_hyperedge)
-        #exit()
         avg_f1_score_1 += max_f1_score
 
     avg_f1_score_1 = avg_f1_score_1 / len(predicted_hyperedges)

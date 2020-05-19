@@ -31,13 +31,11 @@ def get_incidence_matrix(nodes, hyedges):
 def get_adj_matrix(H):
 
     # computing inverse hyedge degree Matrix
-    d_e = np.subtract(sp.csr_matrix.sum(H, axis=0), 1)
-    d_e_inv = 1./d_e
-    d_e_inv[d_e_inv == np.inf] = 0
-    D_e_inv = sp.spdiags(d_e_inv, format="csr")
+    d_e = np.subtract(np.squeeze(np.asarray(sp.csr_matrix.sum(H, axis=0))), 1)
+    D_e_inv = sp.spdiags(np.reciprocal(d_e), [0], H.shape[1], H.shape[1], format="csr")
 
     # computing node degree preserving reduction's adjacency matrix
-    A_ndp = H.dot(D_e_inv.dot(H.transpose))
+    A_ndp = H.dot(D_e_inv.dot(H.transpose()))
     A_ndp = A_ndp - sp.spdiags(A_ndp.diagonal(), [0], A_ndp.shape[0], A_ndp.shape[1], format="csr")
 
     return A_ndp
@@ -66,7 +64,7 @@ def validate_hyedges(hyedges, hyedges_indices, H):
 
 
 def get_hyedges_from_indices(S, indices):
-    S_transpose = S.transpose.tolil()
+    S_transpose = S.transpose().tolil()
 
     hyedges = []
     for index in indices:

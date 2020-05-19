@@ -33,7 +33,7 @@ def read_aminer_data_files(dataset_folder):
 
         classid_classname[curr_classid] = file
 
-        file_handle = open(file, encoding="ISO-8859-1")     #TODO - dive deep about the encoding
+        file_handle = open(file, encoding="ISO-8859-1")
 
         for line in file_handle.readlines():
 
@@ -75,7 +75,7 @@ def read_citseer_data_files(dataset_folder):
 
     classname_classid = {}
 
-    cites_file_handle = open(dataset_folder + "/citeseer/citeseer.cites")
+    cites_file_handle = open(dataset_folder + "/Citeseer/citeseer.cites")
 
     citations = {}
     paperids = set([])
@@ -92,7 +92,7 @@ def read_citseer_data_files(dataset_folder):
             citations[link[1]].add(link[0])
             reference_ids.add(link[0])
 
-    content_file_handle = open(dataset_folder + "/citeseer/citeseer.content")
+    content_file_handle = open(dataset_folder + "/Citeseer/citeseer.content")
 
     for line in content_file_handle.readlines():
         temp = line.split("\n")
@@ -230,7 +230,7 @@ def get_largest_cc(nodes, hyperedges):
     return largest_cc.nodes(), hyperedges
 
 
-def get_citation_network(dataset, use_cc, dataset_folder):
+def get_citation_network(dataset, dataset_folder):
 
     if dataset == "aminer":
         paperid_classid, classid_classname, reference_ids, references_list = read_aminer_data_files(dataset_folder)
@@ -240,24 +240,9 @@ def get_citation_network(dataset, use_cc, dataset_folder):
         paperid_classid, classid_classname, reference_ids, references_list = read_cora_data_files(dataset_folder)
 
     nodes, hyperedges = validate_hyperedges(paperid_classid.keys(), reference_ids, references_list)
-
-    if use_cc == "True":
-        nodes, hyperedges = get_largest_cc(nodes, hyperedges)
+    nodes, hyperedges = get_largest_cc(nodes, hyperedges)
 
     print("Total number of nodes - " + str(len(nodes)))
     print("Total number of hyperedges - " + str(len(hyperedges)))
-
-    #paperid_classid = dict((node, paperid_classid[node]) for node in nodes)
-
-    #classid_count = {}
-    #for paperid in paperid_classid:
-    #    classid = paperid_classid[paperid]
-    #    if classid not in classid_count:
-    #        classid_count[classid] = 1
-    #    else:
-    #        classid_count[classid] += 1
-
-    #for classid in classid_count:
-    #    print("class - " + str(classid) + ", classname - " + str(classid_classname[classid]) + ", count - " + str(classid_count[classid]))
 
     return list(nodes), hyperedges, paperid_classid, classid_classname
