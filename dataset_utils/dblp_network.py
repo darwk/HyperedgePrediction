@@ -1,36 +1,23 @@
 import pickle
 
-from dataset_utils.citation_network import get_largest_cc
-
 
 def get_dblp_network(dataset_folder):
-    dblpfile = open(dataset_folder + '/dblp.pickle', 'rb')
-    dblp_dataset = pickle.load(dblpfile)
+    dblp_file = open(dataset_folder + '/DBLP/dblp.pickle', 'rb')
+    dblp_dataset = pickle.load(dblp_file)
 
     intralayers = dblp_dataset['intra']
 
-    hyperedges = []
+    hyedges = []
     for i in range(len(intralayers)):
-        hyperedge_info = intralayers[i]
+        hyedge_info = intralayers[i]
 
-        head_set = set(hyperedge_info[0])
-        tail_set = set(hyperedge_info[1])
+        head_set = set(hyedge_info[0])
+        tail_set = set(hyedge_info[1])
 
-        hyperedge = list(head_set | tail_set)
-        hyperedge.sort()
-        hyperedges.append(hyperedge)
+        hyedge = list(head_set | tail_set)
+        hyedge.sort()
+        hyedges.append(hyedge)
 
-    nodes = set([])
-    for i in range(len(hyperedges)):
-        nodes.update(hyperedges[i])
-    nodes = list(nodes)
-    nodes.sort()
-
-    nodes, hyperedges = get_largest_cc(nodes, hyperedges)
-
-    print("Total number of nodes - " + str(len(nodes)))
-    print("Total number of hyperedges - " + str(len(hyperedges)))
-
-    return nodes, hyperedges
+    return hyedges
 
 

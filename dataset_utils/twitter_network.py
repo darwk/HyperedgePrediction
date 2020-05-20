@@ -1,6 +1,3 @@
-from dataset_utils.citation_network import get_largest_cc
-
-
 def get_twitter_network(no_nodes, dataset_folder):
     higgsfile = open(dataset_folder + '/higgs-social_network.edgelist', 'r')
 
@@ -22,27 +19,15 @@ def get_twitter_network(no_nodes, dataset_folder):
 
     trunc_nodes = keys[0:no_nodes]
 
-    hyperedges = []
+    hyedges = []
     for node in trunc_nodes:
-        hyperedge = hypergraph[node]
-        new_hyperedge = []
-        for i in range(len(hyperedge)):
-            if hyperedge[i] in trunc_nodes:
-                new_hyperedge.append(hyperedge[i])
+        hyedge = hypergraph[node]
+        new_hyedge = []
+        for i in range(len(hyedge)):
+            if hyedge[i] in trunc_nodes:
+                new_hyedge.append(hyedge[i])
 
-        if len(new_hyperedge) >= 2:
-            hyperedges.append(new_hyperedge)
+        if len(new_hyedge) > 1:
+            hyedges.append(new_hyedge)
 
-    updated_nodes = set([])
-    for hyperedge in hyperedges:
-        updated_nodes.update(hyperedge)
-
-    updated_nodes = list(updated_nodes)
-    updated_nodes.sort()
-
-    updated_nodes, hyperedges = get_largest_cc(updated_nodes, hyperedges)
-
-    updated_nodes = list(updated_nodes)
-    updated_nodes.sort()
-
-    return updated_nodes, hyperedges
+    return hyedges
